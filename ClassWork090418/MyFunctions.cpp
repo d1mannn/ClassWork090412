@@ -118,27 +118,78 @@ void FilePrint(FILE * file)
 	free(buffer);
 }
 
-void TheOldestStudent(FILE * file, int countOfPeople)
-{
-	int max = 0, max2 = 0;
-	int count = 0, count2 = 0;
-	while (!feof(file))
+void FromFileToStruct(FILE * file, students *student,  int countOfPeople)
+{	
+	char test[10];
+	for (int i = 0; i < countOfPeople; i++)
 	{
-		count++;
-		if (count == 5 && count2 == 0)
-		{
-			fscanf_s(file, "%d", &max);
-			count = 0;
-			count2++;
+		while (!feof(file))
+		{	
+			fgets(student[i].Name.lName, 20, file);
+			fgets(student[i].Name.fName, 20, file);
+			fgets(student[i].Name.mName, 20, file);
+			fgets(test, 10, file);
+			student[i].date.year = (int)test;
+			fgets(test, 10, file);
+			student[i].subjects.Math = (int)test;
+			fgets(test, 10, file);
+			student[i].subjects.Physic = (int)test;
+			fgets(test, 10, file);
+			student[i].subjects.IT = (int)test;
+			//fgets(test, 1, file);
+			/*fread_s(student[i].Name.fName, sizeof(char), 1, file);
+			fscanf_s(file, "%s", &student[i].Name.lName);
+			fscanf_s(file, "%s", &student[i].Name.fName);
+			fscanf_s(file, "%s", &student[i].Name.mName);
+			fscanf_s(file, "%s", &student[i].gender);
+			fscanf_s(file, "%d", &student[i].date.year);
+			fscanf_s(file, "%d", &student[i].subjects.Math);
+			fscanf_s(file, "%d", &student[i].subjects.Physic);
+			fscanf_s(file, "%d", &student[i].subjects.IT);*/
+
+
+		//	printf("%s", student[i].Name.lName);
+			printf("%d\n", student[i].date.year);
+			printf("%d\n", student[i].subjects.Math);
+			printf("%d\n", student[i].subjects.Physic);
+			printf("%d\n", student[i].subjects.IT);
+			/*printf("%s", student[i].Name.mName);
+			printf("%s", student[i].gender);
+			printf("%d", student[i].date.year);
+			printf("%d", student[i].subjects.Math);
+			printf("%d", student[i].subjects.Physic);
+			printf("%d", student[i].subjects.IT);*/
 		}
-		if (count == 5 && count2 != 0)
-		{
-			fscanf_s(file, "%d", &max2);
-			if (max < max2)
-				max = max2;
-			count = 0;
-		}
-		printf("%d\n", max);
 	}
-	printf("\nMAX = %d\n", max);
+	
+}
+
+void TheOldestStudent(students *student, int countOfPeople, int * index)
+{
+	int min = student[0].date.year;
+	for (int i = 0; i < countOfPeople; i++)
+	{
+		if (student[i].date.year < min)
+		{	
+			min = student[i].date.year;
+			*index = i;
+		}
+	}
+	printf("Самый старшний ученик:\n\t %s %s %s (%s)\n\tГод рождения: %d\n",
+		student[*index].Name.fName, student[*index].Name.mName, student[*index].Name.lName, student[*index].gender, student[*index].date.year);
+}
+
+void TheYoungestStudent(students * student, int countOfPeople, int * index)
+{
+	int min = student[0].date.year;
+	for (int i = 0; i < countOfPeople; i++)
+	{
+		if (student[i].date.year > min)
+		{
+			min = student[i].date.year;
+			*index = i;
+		}
+	}
+	printf("Самый старшний ученик:\n\t %s %s %s (%s)\n\tГод рождения: %d\n",
+		student[*index].Name.fName, student[*index].Name.mName, student[*index].Name.lName, student[*index].gender, student[*index].date.year);
 }

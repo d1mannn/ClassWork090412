@@ -14,4 +14,5 @@ void Gender(students * student, int countOfPeope);
 void SubjectsScore(students * student, int countOfPeope);
 void FileFilling(FILE * file, students * student, int countOfPeople);
 void FilePrint(FILE * file);
-void TheOldestStudent(FILE * file, int countOfPeople);
+void FromFileToStruct(FILE * file, students *student, int countOfPeople);
+void TheOldestStudent(students * student, int countOfPeople, int * index);
